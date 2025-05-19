@@ -8,8 +8,8 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
-  }),
-    app.setGlobalPrefix('/api');
+  });
+  app.setGlobalPrefix('/api');
   const configService = app.get(ConfigService);
   const port = configService.get<number>('app.port') ?? 3000;
   await app.listen(port);
