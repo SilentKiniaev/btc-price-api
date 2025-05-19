@@ -40,7 +40,7 @@ export class BtcPriceService implements OnApplicationBootstrap {
     ) as IConfig['btc'];
     await this.setMidPrice();
     this.schedulerService.addCronJob(
-      'setMidPrice',
+      BTC_MID_PRICE_KEY,
       `*/${btcConfig.priceUdateFrequency} * * * * *`,
       this.setMidPrice,
       this,
@@ -53,8 +53,13 @@ export class BtcPriceService implements OnApplicationBootstrap {
   }
 
   async setMidPrice() {
-    const midPrice = await this.calculateMidPrice();
-    await this.cacheManager.set(BTC_MID_PRICE_KEY, midPrice);
+    try {
+      const midPrice = await this.calculateMidPrice();
+      await this.cacheManager.set(BTC_MID_PRICE_KEY, midPrice);
+      this.logger.debug(`New BTC price: ${midPrice}`);
+    } catch (error) {
+      this.logger.error(error.message, error);
+    }
   }
 
   async calculateMidPrice() {

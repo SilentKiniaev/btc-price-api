@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ScheduleModule } from '@nestjs/schedule';
+import { ScheduleModule as NestScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BtcPriceModule } from './modules/btc-price/btc-price.module';
@@ -14,7 +14,7 @@ import config from './config/configuration';
       isGlobal: true,
       cache: true,
     }),
-    ScheduleModule.forRoot(),
+    NestScheduleModule.forRoot(),
     BtcPriceModule,
     SchedulerModule,
   ],
